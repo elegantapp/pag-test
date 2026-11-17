@@ -3,6 +3,8 @@
 
 Automates PWA asset generation and image declaration. Automatically generates icon and splash screen images, favicons and mstile images. Updates manifest.json and index.html files with the generated images according to Web App Manifest specs and Apple Human Interface guidelines.
 
+> **Disclaimer:** Apple removed the iOS/iPadOS device screen dimensions table from its Human Interface Guidelines, so the HIG is no longer a reliable source for device specs. pwa-asset-generator uses static fallback data bundled in [`src/config/apple-fallback-data.json`](src/config/apple-fallback-data.json) instead, and the `--scrape` flag is a deprecated no-op kept only for backwards compatibility.
+
 ![Usage demonstration](https://raw.githubusercontent.com/elegantapp/pwa-asset-generator/HEAD/static/demo.gif)
 
 ## Motivation — [read the full blog post here](https://itnext.io/pwa-splash-screen-and-icon-generator-a74ebb8a130)
@@ -162,6 +164,12 @@ const appleDeviceSpecsForLaunchImages = pwaAssetGenerator.appleDeviceSpecsForLau
 ```
 
 ## FAQ
+
+### Where do the iOS/iPadOS device specs come from?
+
+They're static data, maintained by hand in [`src/config/apple-fallback-data.json`](src/config/apple-fallback-data.json). Apple used to publish a device screen dimensions table in its Human Interface Guidelines, but removed it and hasn't republished it anywhere else, so pwa-asset-generator no longer scrapes it live and ships this bundled data instead.
+
+If a new device is missing, it needs to be added by hand via a PR to that JSON file. The same data is also exposed from the module API as `appleDeviceSpecsForLaunchImages`, if you want to consume it directly.
 
 ### What kind of image input should I use with this library? What are the safe margins for a logo?
 
